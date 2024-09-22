@@ -38,32 +38,75 @@ function postData(newData){
 
 }
 
+function addData(newData) {
+    try {
+        const file = fs.readFileSync('details.json', 'utf-8');
+        const existingData = fs.existsSync('details.json') ? JSON.parse(file) :{};
+
+        if (typeof existingData === 'object') {
+            // Use a unique identifier (e.g., id or name) as the key
+            if (newData.id) {
+                existingData[newData.id] = newData;  // Add new data as key-value pair
+            } else {
+                return 'New data must contain an "id" field';
+            }
+        } else {
+            return 'Data format in file is not valid for key-value storage';
+        }
 
 
-router.post('/display',(req,res)=>{
-    const getData=display();
-    res.json(getData);
+        fs.writeFileSync('details.json', JSON.stringify(existingData), 'utf-8');
+        return 'New data added successfully!';
+    } catch (err) {
+        console.error('Error writing to file:', err);
+        return 'Write Failed!';
+    }
+}
+
+function deleteData(id) {
+    try {
+        const file = fs.readFileSync('details.json', 'utf-8');
+        const existingData = fs.existsSync('details.json') ? JSON.parse(file) : {};
+
+        // Check if the id exists in the existing data
+        if (existingData[id]) {
+            delete existingData[id];  // Remove the entry
+            fs.writeFileSync('details.json', JSON.stringify(existingData, null, 2), 'utf-8');
+            return `Data with ID ${id} has been deleted successfully!`;
+        } else {
+            return `No data found with ID ${id}.`;
+        }
+    } catch (err) {
+        console.error('Error writing to file:', err);
+        return 'Delete Failed!';
+    }
+}
+
+
+
+router.post('/details',(req,res)=>{
+    const newData = req.body; 
+    const result = addData(newData); 
+    res.send(result); 
 
 })
 
 router.put('/edit',(req,res)=>{
-    const postData=postData(req.body);
-    res.send(postData);
-})
-
-router.put('/edit', (req, res) => {
-    console.log('Received request:', req.body);  // Log request body
-    const result = postData(req.body);
+    const result=postData(req.body);
     res.send(result);
 });
 
 
 router.get('/hospital',(req,res)=>{
+    const getData=display();
+    res.json(getData);
 
 })
 
 router.delete('/delete',(req,res)=>{
-
+    const id = req.params.id;  // Get the ID from the URL parameters
+    const result = deleteData(id);  // Call the delete function
+    res.send(result);  // Send the result back to the client
 })
 
 module.exports=router
