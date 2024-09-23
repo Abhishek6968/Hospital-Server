@@ -1,16 +1,8 @@
-{"90":{"id":90,"name":"Sam","loc":"Peyad"},"203":{"id":203,"name":"Ory","loc":"Peyad"},"Hospital":[{"id":1,"name":"abhi","age":23,"location":"tvm"},{"id":2,"name":"annin","age":23,"location":"ern"}],"name":"Abhishek","age":25,"location":"NY","id":23,"loc":"London"}
-
 {
-    "1": {
-        "id": 1,
-        "name": "abhi",
-        "age": 23,
-        "location": "tvm"
-    },
-    "2": {
-        "id": 2,
-        "name": "annin",
-        "age": 23,
-        "location": "ern"
-    }
+  "Hospital": {
+    "id": 2,
+    "name": "abhishek",
+    "age": 23,
+    "location": "ern"
+  }
 }

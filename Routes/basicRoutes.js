@@ -103,7 +103,7 @@ router.get('/hospital',(req,res)=>{
 
 })
 
-router.delete('/delete',(req,res)=>{
+router.delete('/delete/:id',(req,res)=>{
     const id = req.params.id;  // Get the ID from the URL parameters
     const result = deleteData(id);  // Call the delete function
     res.send(result);  // Send the result back to the client
